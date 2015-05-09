@@ -1,6 +1,11 @@
 # spring-security-saml2-sample
 A sample application protected by Spring Security Saml2.
 
+
+> This project was developed as part of Unicon's [Open Source Support program](https://unicon.net/opensource).
+Professional Support / Integration Assistance for this module is available. For more information [visit](https://unicon.net/opensource/cas).
+
+
 ##Configuration
 
 ### Context

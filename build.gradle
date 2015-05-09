@@ -1,0 +1,42 @@
+allprojects {
+    repositories {
+        maven { url 'https://build.shibboleth.net/nexus/content/groups/public'}
+        jcenter()
+        mavenLocal()
+    }
+}
+
+apply plugin: 'war'
+
+war.archiveName = "sp.war"
+
+description = "Spring Security SAML v2 sample webapp"
+
+def WEBAPPS_HOME = System.getenv()['CATALINA_HOME'] + '/webapps'
+
+dependencies {
+	compile "org.springframework.security.extensions:spring-security-saml2-core:${project.'spring-security-saml2.version'}",
+		"org.springframework:spring-core:${project.'spring.version'}",
+		"org.springframework:spring-beans:${project.'spring.version'}",
+		"org.springframework:spring-context:${project.'spring.version'}",
+		"org.springframework:spring-aop:${project.'spring.version'}",
+		"org.springframework:spring-web:${project.'spring.version'}",
+		"org.springframework:spring-webmvc:${project.'spring.version'}",
+		"org.springframework.security:spring-security-config:${project.'spring-security.version'}",
+		"org.slf4j:slf4j-log4j12:${project.'slf4j.version'}",
+		"javax.servlet:jstl:1.2"
+
+	providedCompile "javax.servlet:jsp-api:2.0"
+
+	testCompile "junit:junit:4.4"
+}
+
+task tidy(type: Delete) {
+  delete WEBAPPS_HOME + '/sp.war', WEBAPPS_HOME + '/sp'
+}
+
+task deploy(type: Copy) {
+    from 'build/libs/sp.war' into WEBAPPS_HOME
+    dependsOn tidy
+    dependsOn war,tidy
+}

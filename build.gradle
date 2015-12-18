@@ -6,20 +6,29 @@ allprojects {
     }
 }
 
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.akhikhl.gretty:gretty:1.2.4"
+    }
+}
+
 apply plugin: 'war'
-apply plugin: 'jetty'
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: "org.akhikhl.gretty"
 
 war.archiveName = "sp.war"
 
 description = "Spring Security SAML v2 sample webapp"
-
-def WEBAPPS_HOME = System.getenv()['CATALINA_HOME'] + '/webapps'
-
-httpPort = 8081
-stopPort = 9081
-stopKey = "stopKey"
 
 dependencies {
     compile "org.springframework.security.extensions:spring-security-saml2-core:${project.'spring-security-saml2.version'}",
@@ -38,12 +47,29 @@ dependencies {
     testCompile "junit:junit:4.4"
 }
 
-task tidy(type: Delete) {
-  delete WEBAPPS_HOME + '/sp.war', WEBAPPS_HOME + '/sp'
+configurations {
+    grettyRunnerJetty9 {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.ow2.asm') {
+                details.useVersion('5.0.3')
+            }
+            if (details.requested.group == 'org.glassfish'
+                    && details.requested.name == 'javax.el') {
+                details.useVersion('3.0.0')
+            }
+        }
+    }
 }
 
-task deploy(type: Copy) {
-    from 'build/libs/sp.war' into WEBAPPS_HOME
-    dependsOn tidy
-    dependsOn war,tidy
+gretty {
+    jvmArgs = ["-Dorg.eclipse.jetty.annotations.maxWait=120","-Xdebug","-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"]
+    scanInterval = 5
+    contextPath = '/sp'
+    httpsEnabled = true
+    httpsPort = 9443
+    sslKeyStorePath = 'c:\\etc\\cas\\jetty\\thekeystore'
+    sslKeyStorePassword = 'changeit'
+    sslTrustStorePath = 'c:\\etc\\cas\\jetty\\thekeystore'
+    sslKeyStorePassword = 'changeit'
 }
+

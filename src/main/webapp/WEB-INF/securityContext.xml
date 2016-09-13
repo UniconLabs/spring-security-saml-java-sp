@@ -109,15 +109,21 @@
         <property name="defaultProfileOptions">
             <bean class="org.springframework.security.saml.websso.WebSSOProfileOptions">
                 <property name="includeScoping" value="false"/>
-                <!--
+
+            <!--
+                <property name="forceAuthN" value="true" />
+                
                 <property name="authnContexts">
                     <list>
-                        <value>http://id.incommon.org/assurance/silver</value>
+                        <value>https://www.wisc.edu/q</value>
                     </list>
                 </property>
+
                 <property name="allowCreate" value="true" />
                 <property name="authnContextComparison" value="EXACT" />
-                -->
+            -->
+
+
             </bean>
         </property>
     </bean>
@@ -224,7 +230,7 @@
     </bean>
 
     <!-- Provider of default SAML Context -->
-    
+
     <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderImpl">
         <property name="storageFactory">
             <bean class="org.springframework.security.saml.storage.EmptyStorageFactory" />

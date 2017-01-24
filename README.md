@@ -1,6 +1,6 @@
 # spring-security-saml2-sample
-A sample application protected by Spring Security Saml2.
 
+A sample application protected by Spring Security Saml2.
 
 > This project was developed as part of Unicon's [Open Source Support program](https://unicon.net/opensource).
 Professional Support / Integration Assistance for this module is available. For more information [visit](https://unicon.net/opensource/cas).
@@ -9,9 +9,11 @@ Professional Support / Integration Assistance for this module is available. For 
 ##Configuration
 
 ### Context
+
 App is available by default at `https://hostname/sp`.
 
 ### SP Metadata
+
 The SP metadata is available under `src\main\resources\metadata`. Deploy the application, and
 use the `Metadata Administration` tab to generate new metadata for the SP. Copy the content
 and paste them into the `sp-metadata.xml` file.
@@ -25,6 +27,7 @@ For example:
 ```
 
 ### IdP Metadata
+
 The IdP metadata is referenced inside the `sp.properties` file. While you are reviewing this file,
 also adjust the `host.name` property. This should be pointed to FQDN of the server that hosts the sample
 application.
@@ -32,14 +35,21 @@ application.
 ## Build
 
 ```bash
-gradle build
+gradlew build
 ```
 
 ## Deploy
+
+The application can be run using an embedded Jetty instance:
+
+```bash
+gradlew build jettyRunWar
+```
+
 The build script is able to automatically deploy the sample to `$CATALINA_HOME`, via:
 
 ```bash
-gradle deploy
+gradlew deploy
 ```
 
 Note that `deploy` will automatically build the sample application as well. 
@@ -47,5 +57,7 @@ For this work, you must define the `$CATALINA_HOME` environment variable to poin
 Tomcat installation directory. 
 
 ## Test
+
 - The sample application will be available at: `https://hostname/sp`
-- The sample application has been tested with Shibboleth IdP 3.1.1
+- The sample application has been tested with Shibboleth IdP 3.3
+- Remote debugging via the embedded Jetty deployment option is available under port `5005`

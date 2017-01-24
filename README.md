@@ -10,7 +10,7 @@ Professional Support / Integration Assistance for this module is available. For 
 
 ### Context
 
-App is available by default at `https://hostname/sp`.
+App is available by default at `https://hostname[:port]/sp`.
 
 ### SP Metadata
 
@@ -40,11 +40,19 @@ gradlew build
 
 ## Deploy
 
+
+### Embedded
+
 The application can be run using an embedded Jetty instance:
 
 ```bash
 gradlew build jettyRunWar
 ```
+
+- The sample application will be available at: `https://hostname[8081|9443]/sp`
+- Remote debugging via the embedded Jetty deployment option is available under port `5005`
+
+### External
 
 The build script is able to automatically deploy the sample to `$CATALINA_HOME`, via:
 
@@ -58,6 +66,4 @@ Tomcat installation directory.
 
 ## Test
 
-- The sample application will be available at: `https://hostname/sp`
-- The sample application has been tested with Shibboleth IdP 3.3
-- Remote debugging via the embedded Jetty deployment option is available under port `5005`
+- The application has been tested with Shibboleth IdP 3.3.

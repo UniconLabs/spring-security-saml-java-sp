@@ -6,7 +6,7 @@ A sample application protected by Spring Security Saml2.
 Professional Support / Integration Assistance for this module is available. For more information [visit](https://unicon.net/opensource/cas).
 
 
-##Configuration
+## Configuration
 
 ### Context
 
